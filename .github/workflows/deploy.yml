@@ -9,5 +9,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker build -t nitesh/react-app -f ./DockerFile.dev ./
+      - run: docker build -t nitesh/react-app -f DockerFile.dev .
       - run: docker run -e CI=true nitesh/react-app npm test
