@@ -11,3 +11,17 @@ jobs:
       - uses: actions/checkout@v2
       - run: docker build -t nitesh/react-app -f ./Dockerfile.dev ./
       - run: docker run -e CI=true nitesh/react-app npm test
+      - name: Generate deployment package
+        run: zip -r deploy.zip . -x '*.git*'
+      
+      - name: Deploy to EB
+        uses: einaregilsson/beanstalk-deploy@v18
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
+          application_name: docker-react-test
+          environment_name: Dockerreacttest-env
+          existing_bucket_name: elasticbeanstalk-ap-south-1-057690031169
+          region: ap-south-1
+          version_label: ${{ github.sha }}
+          deployment_package: deploy.zip
