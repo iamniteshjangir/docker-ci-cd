@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: docker build -t nitesh/react-app -f ./Dockerfile.dev ./
+      - run: docker build -t nitesh/react-app -f Dockerfile.dev .
       - run: docker run -e CI=true nitesh/react-app npm test
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
